@@ -7,7 +7,7 @@ import { IHealthCheckService, IHealthCheckItemService } from '../interfaces';
 
 @Injectable()
 export class HealthCheckService implements IHealthCheckService {
-  private items: IHealthCheckItemService[] = [];
+  public items: IHealthCheckItemService[] = [];
 
   public async getHealth(): Promise<HealthCheckDTO> {
     let state = HealthCheckStateType.UP;
