@@ -1,17 +1,12 @@
 import { Module } from '@nestjs/common';
 
-import {
-  ConfigModule,
-  ConfigService
-} from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { HealthCheckService } from './services';
 import { BasicAPIProviderTokens } from './enums';
 
 @Module({
-  imports: [
-    ConfigModule
-  ],
+  imports: [ConfigModule],
 
   providers: [
     ConfigService,
@@ -21,8 +16,6 @@ import { BasicAPIProviderTokens } from './enums';
     }
   ],
 
-  exports: [
-    BasicAPIProviderTokens.HEALTH_CHECK_SERVICE_TOKEN
-  ]
+  exports: [BasicAPIProviderTokens.HEALTH_CHECK_SERVICE_TOKEN]
 })
 export class BasicAPIModule {}

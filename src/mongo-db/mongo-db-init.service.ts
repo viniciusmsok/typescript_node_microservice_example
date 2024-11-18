@@ -1,11 +1,7 @@
 import { Connection } from 'mongoose';
 import { InjectConnection } from '@nestjs/mongoose';
 
-import {
-  Inject,
-  Logger,
-  OnModuleInit
-} from '@nestjs/common';
+import { Inject, Logger, OnModuleInit } from '@nestjs/common';
 
 import {
   HealthCheckItemDTO,
@@ -16,18 +12,17 @@ import {
   IHealthCheckItemService
 } from '../basic-api';
 
-import { APPLICATION_MAIN_DB_CONNECTION } from '../core';
+import { APP_MAIN_DB_CONNECTION } from '../core';
 
-export class MongoDBInitService implements
-  OnModuleInit,
-  IHealthCheckItemService
+export class MongoDBInitService
+  implements OnModuleInit, IHealthCheckItemService
 {
   private readonly logger = new Logger(MongoDBInitService.name);
 
   constructor(
     @InjectConnection()
     private readonly conn: Connection,
-    
+
     @Inject(BasicAPIProviderTokens.HEALTH_CHECK_SERVICE_TOKEN)
     private readonly healthCheckService: IHealthCheckService
   ) {
@@ -49,18 +44,17 @@ export class MongoDBInitService implements
   }
 
   async checkItem(): Promise<HealthCheckItemDTO> {
-    const result : HealthCheckItemDTO = {
+    const result: HealthCheckItemDTO = {
       type: HealthCheckItemType.DATABASE,
-      name: APPLICATION_MAIN_DB_CONNECTION,
+      name: APP_MAIN_DB_CONNECTION,
       state: HealthCheckStateType.UP
-    }
+    };
 
     try {
       if (this.conn.readyState !== 1) {
         throw new Error('Connection undefined');
       }
-    }
-    catch(e) {
+    } catch (e) {
       result.state = HealthCheckStateType.DOWN;
       this.logger.error('MongoDB connection error', e);
     }

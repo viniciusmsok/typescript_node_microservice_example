@@ -5,5 +5,5 @@ export enum HealthCheckItemType {
   MICROSERVICE = 'Microservice',
   OTHER = 'Other',
   REST_API = 'Rest API',
-  SSO = 'SSO'  
+  SSO = 'SSO'
 }

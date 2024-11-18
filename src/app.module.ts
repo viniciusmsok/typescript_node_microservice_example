@@ -5,10 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongoDBModule } from './mongo-db';
 import { createEnvironment } from './core';
 
-import {
-  BasicAPIModule,
-  OtherExceptionFilter
-} from './basic-api';
+import { BasicAPIModule, OtherExceptionFilter } from './basic-api';
 
 import { AppController } from './app.controller';
 
@@ -20,7 +17,7 @@ import { AppController } from './app.controller';
     }),
 
     BasicAPIModule,
-    MongoDBModule    
+    MongoDBModule
   ],
 
   controllers: [AppController],

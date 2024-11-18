@@ -1,16 +1,13 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import {
-  ConfigModule,
-  ConfigService
-} from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { MongoDBInitService } from './mongo-db-init.service';
 import { MongoDBProviderTokens } from './mongo-db-provider-tokens.enum';
 
 import { BasicAPIModule } from '../basic-api';
-import { ENVIRONMENT_MONGODB_MAIN_DATABASE_URI } from '../core';
+import { ENV_MONGODB_MAIN_DATABASE_URI } from '../core';
 
 @Module({
   imports: [
@@ -20,7 +17,7 @@ import { ENVIRONMENT_MONGODB_MAIN_DATABASE_URI } from '../core';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>(ENVIRONMENT_MONGODB_MAIN_DATABASE_URI),
+        uri: configService.get<string>(ENV_MONGODB_MAIN_DATABASE_URI),
         serverSelectionTimeoutMS: 5000,
         connectTimeoutMS: 10000,
         socketTimeoutMS: 45000
@@ -34,11 +31,9 @@ import { ENVIRONMENT_MONGODB_MAIN_DATABASE_URI } from '../core';
     {
       provide: MongoDBProviderTokens.MONGO_DB_INIT_SERVICE,
       useClass: MongoDBInitService
-    }    
+    }
   ],
 
-  exports: [
-    MongoDBProviderTokens.MONGO_DB_INIT_SERVICE
-  ]
+  exports: [MongoDBProviderTokens.MONGO_DB_INIT_SERVICE]
 })
 export class MongoDBModule {}

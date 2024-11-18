@@ -4,24 +4,17 @@ import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 
-import {
-  SwaggerModule,
-  DocumentBuilder
-} from '@nestjs/swagger';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
-import { ENVIRONMENT_PORT } from './core/environment';
+import { ENV_PORT } from './core/environment';
 import { HttpExceptionFilter } from './basic-api';
 
-
 async function bootstrap() {
-  const app = await NestFactory.create(
-    AppModule,
-    { cors: true }
-  );
+  const app = await NestFactory.create(AppModule, { cors: true });
 
   const configService: ConfigService = app.get(ConfigService);
-  const port: number = configService.get(ENVIRONMENT_PORT);
+  const port: number = configService.get(ENV_PORT);
 
   app.useGlobalFilters(new HttpExceptionFilter());
 
@@ -37,7 +30,9 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('TYPESCRIPT NODE MICROSERVICE EXAMPLE')
-    .setDescription('Microservice | Typescript | Node | MongoDB | Validator | Swagger')
+    .setDescription(
+      'Microservice | Typescript | Node | MongoDB | Validator | Swagger'
+    )
     .setVersion('1.0')
     .addSecurity('bearer', { type: 'http', scheme: 'bearer' })
     .build();

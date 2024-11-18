@@ -17,14 +17,10 @@ import {
 
 import { IHealthCheckService } from './basic-api/interfaces';
 
-import {
-  HealthCheckDTO,
-  BasicAPIProviderTokens
-} from './basic-api';
+import { HealthCheckDTO, BasicAPIProviderTokens } from './basic-api';
 
 @Controller()
 export class AppController {
-
   constructor(
     @Inject(BasicAPIProviderTokens.HEALTH_CHECK_SERVICE_TOKEN)
     private readonly service: IHealthCheckService
@@ -42,7 +38,11 @@ export class AppController {
     );
   }
 
-  @ApiDefaultResponse({ description: 'OK', type: HealthCheckDTO, isArray: true })
+  @ApiDefaultResponse({
+    description: 'OK',
+    type: HealthCheckDTO,
+    isArray: true
+  })
   @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'No Content' })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })

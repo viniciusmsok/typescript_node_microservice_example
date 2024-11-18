@@ -3,10 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { HealthCheckDTO } from '../dto';
 import { HealthCheckStateType } from '../enums';
 
-import {
-  IHealthCheckService,
-  IHealthCheckItemService
-} from '../interfaces';
+import { IHealthCheckService, IHealthCheckItemService } from '../interfaces';
 
 @Injectable()
 export class HealthCheckService implements IHealthCheckService {
@@ -18,7 +15,9 @@ export class HealthCheckService implements IHealthCheckService {
 
     const errorItems: string[] = [];
 
-    const items = await Promise.all(this.items.map(check => check.checkItem()));
+    const items = await Promise.all(
+      this.items.map((check) => check.checkItem())
+    );
     for (const item of items) {
       if (item.state !== HealthCheckStateType.UP) {
         errorItems.push(item.name);
@@ -30,7 +29,7 @@ export class HealthCheckService implements IHealthCheckService {
       message = `The application is unstable. Please check the following items: ${errorItems.join(', ')}`;
     }
 
-    const result : HealthCheckDTO = {
+    const result: HealthCheckDTO = {
       state,
       message,
       timestamp: new Date().toISOString(),
