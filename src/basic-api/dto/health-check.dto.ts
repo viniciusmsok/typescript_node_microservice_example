@@ -32,8 +32,8 @@ export class HealthCheckDTO {
   @ApiProperty(
     {
       description: 'Health check items',
-      type: HealthCheckItemDTO
+      type: [HealthCheckItemDTO]
     }
   )
-  items: HealthCheckItemDTO[]
+  items: HealthCheckItemDTO[];
 }

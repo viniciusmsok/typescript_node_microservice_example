@@ -9,7 +9,7 @@ import {
   ExceptionFilter
 } from '@nestjs/common';
 
-import { DefaultExceptionResponse } from './default-exception-response.interface';
+import { DefaultExceptionResponse } from '../interfaces';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {

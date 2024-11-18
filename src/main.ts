@@ -1,6 +1,7 @@
 import { urlencoded } from 'express';
 
 import { NestFactory } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 
 import {
@@ -9,12 +10,8 @@ import {
 } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
-
-import {
-  EnvironmentService,
-  HttpExceptionFilter,
-  BasicAPIProviderTokens
-} from './basic-api';
+import { ENVIRONMENT_PORT } from './core/environment';
+import { HttpExceptionFilter } from './basic-api';
 
 
 async function bootstrap() {
@@ -23,12 +20,8 @@ async function bootstrap() {
     { cors: true }
   );
 
-  const env: EnvironmentService = app.get(
-    BasicAPIProviderTokens.ENVIRONMENT_SERVICE_TOKEN
-  );
-
-  /* ENVIRONMENT VARIABLES */
-  const port = env.setInt('PORT', true);
+  const configService: ConfigService = app.get(ConfigService);
+  const port: number = configService.get(ENVIRONMENT_PORT);
 
   app.useGlobalFilters(new HttpExceptionFilter());
 

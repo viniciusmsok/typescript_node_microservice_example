@@ -9,7 +9,7 @@ import {
   ExceptionFilter
 } from '@nestjs/common';
 
-import { DefaultExceptionResponse } from './default-exception-response.interface';
+import { DefaultExceptionResponse } from '../interfaces';
 
 @Catch()
 export class OtherExceptionFilter implements ExceptionFilter {
@@ -37,7 +37,7 @@ export class OtherExceptionFilter implements ExceptionFilter {
       ? exception?.response?.message
       : [exception?.response?.message || exception.message].join('. ');
 
-    const body: DefaultExceptionResponse = {
+    const body: DefaultExceptionResponse   = {
       statusCode,
       timestamp: new Date().toISOString(),
       path: request.url,

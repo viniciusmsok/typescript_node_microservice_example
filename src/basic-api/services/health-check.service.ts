@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 
-import { HealthCheckDTO } from './dto';
-import { HealthCheckStateType } from './enums';
+import { HealthCheckDTO } from '../dto';
+import { HealthCheckStateType } from '../enums';
 
 import {
   IHealthCheckService,
   IHealthCheckItemService
-} from './interfaces';
+} from '../interfaces';
 
 @Injectable()
 export class HealthCheckService implements IHealthCheckService {
   private items: IHealthCheckItemService[] = [];
 
-  async getHealth(): Promise<HealthCheckDTO> {
+  public async getHealth(): Promise<HealthCheckDTO> {
     let state = HealthCheckStateType.UP;
     let message = 'Application is up and running.';
 

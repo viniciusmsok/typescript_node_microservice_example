@@ -1,15 +1,26 @@
 import { Module } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
-import { AppController } from './app.controller';
+import { ConfigModule } from '@nestjs/config';
+
+import { MongoDBModule } from './mongo-db';
+import { createEnvironment } from './core';
 
 import {
   BasicAPIModule,
   OtherExceptionFilter
 } from './basic-api';
 
+import { AppController } from './app.controller';
+
 @Module({
   imports: [
-    BasicAPIModule
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      validate: createEnvironment
+    }),
+
+    BasicAPIModule,
+    MongoDBModule    
   ],
 
   controllers: [AppController],
