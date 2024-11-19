@@ -1,7 +1,8 @@
 import { HealthCheckService } from './health-check.service';
+
+import { HealthCheckDTO } from '../dto';
 import { HealthCheckStateType } from '../enums';
 import { IHealthCheckItemService } from '../interfaces';
-import { HealthCheckDTO } from '../dto';
 
 describe('HealthCheckService', () => {
   let healthCheckService: HealthCheckService;
