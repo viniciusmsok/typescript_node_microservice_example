@@ -7,7 +7,7 @@ import { MongoDBInitService } from './mongo-db-init.service';
 import { MongoDBProviderTokens } from './mongo-db-provider-tokens.enum';
 
 import { BasicAPIModule } from '../basic-api';
-import { ENV_MONGODB_MAIN_DATABASE_URI } from '../core';
+import { ENV_MONGODB_MAIN_DATABASE_URI } from '../environment';
 
 @Module({
   imports: [

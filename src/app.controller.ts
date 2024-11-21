@@ -15,9 +15,11 @@ import {
   ApiExcludeEndpoint
 } from '@nestjs/swagger';
 
-import { IHealthCheckService } from './basic-api/interfaces';
-
-import { HealthCheckDTO, BasicAPIProviderTokens } from './basic-api';
+import {
+  HealthCheckDTO,
+  IHealthCheckService,
+  BasicAPIProviderTokens
+} from './core';
 
 @Controller()
 export class AppController {

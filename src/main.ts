@@ -7,8 +7,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
-import { ENV_PORT } from './core/environment';
-import { HttpExceptionFilter } from './basic-api';
+
+import { ENV_PORT, HttpExceptionFilter, MongoExceptionFilter } from './core';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
@@ -16,7 +16,7 @@ async function bootstrap() {
   const configService: ConfigService = app.get(ConfigService);
   const port: number = configService.get(ENV_PORT);
 
-  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new MongoExceptionFilter(), new HttpExceptionFilter());
 
   app.useGlobalPipes(
     new ValidationPipe({

@@ -12,7 +12,7 @@ import {
   IHealthCheckItemService
 } from '../basic-api';
 
-import { APP_MAIN_DB_CONNECTION } from '../core';
+import { APP_MAIN_DB_CONNECTION } from '../environment';
 
 export class MongoDBInitService
   implements OnModuleInit, IHealthCheckItemService

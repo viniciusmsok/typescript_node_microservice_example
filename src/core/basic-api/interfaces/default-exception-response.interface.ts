@@ -1,8 +1,7 @@
-import { Response } from 'express';
-
 export interface DefaultExceptionResponse {
-  statusCode: number;
-  timestamp: Date | string;
+  method: string;
   path: string;
-  bodyMessage?: Response | string;
+  statusCode: number;
+  exception?: unknown;
+  timestamp: Date | string;
 }
