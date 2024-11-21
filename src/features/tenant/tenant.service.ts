@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Tenant } from './schemas';
-import { TenantDTO } from './dto';
+import { TenantDTO, TenantFindParametersDTO } from './dto';
 
 @Injectable()
 export class TenantService {
@@ -14,7 +14,21 @@ export class TenantService {
     return newTenant.save();
   }
 
-  async findAll(): Promise<Tenant[]> {
-    return this.tenantModel.find().exec();
+  async find(queryParams: TenantFindParametersDTO): Promise<Tenant[]> {
+    const params: any = {};
+
+    if (queryParams._id) {
+      params._id = queryParams._id;
+    }
+
+    if (queryParams.status) {
+      params.status = queryParams.status;
+    }
+
+    if (queryParams.partialName) {
+      params.name = { $regex: `^${queryParams.partialName}`, $options: 'i' };
+    }
+
+    return this.tenantModel.find(params).exec();
   }
 }

@@ -1,6 +1,7 @@
 import { MongoError } from 'mongodb';
-import { ConfigService } from '@nestjs/config';
+import { MongooseError } from 'mongoose';
 
+import { ConfigService } from '@nestjs/config';
 import {
   Catch,
   Logger,
@@ -12,7 +13,7 @@ import {
 import { ENV_LOG_EXCEPTION_TYPE } from '../environment';
 import { DefaultExceptionResponse, LogExceptionType } from '../basic-api';
 
-@Catch(MongoError)
+@Catch(MongoError, MongooseError)
 export class MongoExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger(MongoExceptionFilter.name);
 
@@ -20,18 +21,29 @@ export class MongoExceptionFilter implements ExceptionFilter {
     ENV_LOG_EXCEPTION_TYPE
   );
 
-  catch(ex: MongoError, host: ArgumentsHost) {
+  catch(ex: MongoError | MongooseError, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const request = ctx.getRequest();
     const response = ctx.getResponse();
 
     const statusCode = HttpStatus.BAD_REQUEST;
 
-    const exception = {
-      code: ex.code,
-      message: this.decodeMongoErrorCode(ex.code),
-      detail: undefined
-    };
+    let exception: any = {};
+
+    if (ex instanceof MongoError) {
+      exception = {
+        code: ex.code,
+        message: this.decodeMongoErrorCode(ex.code),
+        detail: undefined
+      };
+    } else if (ex instanceof MongooseError) {
+      exception = {
+        kind: ex['kind'],
+        path: ex['path'],
+        message: ex['reason']?.message,
+        detail: undefined
+      };
+    }
 
     const body: DefaultExceptionResponse = {
       method: request.method,

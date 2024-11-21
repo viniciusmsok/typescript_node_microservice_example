@@ -1,8 +1,8 @@
-import { Get, Post, Body, Controller } from '@nestjs/common';
+import { Get, Post, Body, Query, Controller } from '@nestjs/common';
 
 import { Tenant } from './schemas';
-import { TenantDTO } from './dto';
 import { TenantService } from './tenant.service';
+import { TenantDTO, TenantFindParametersDTO } from './dto';
 
 import { getDTO } from '../../core';
 
@@ -17,7 +17,12 @@ export class TenantController {
   }
 
   @Get('/')
-  findAll(): Promise<Tenant[]> {
-    return this.tenantService.findAll();
+  find(@Query() queryParams: any): Promise<Tenant[]> {
+    const tenantFindParametersDTO = getDTO(
+      TenantFindParametersDTO,
+      queryParams
+    );
+
+    return this.tenantService.find(tenantFindParametersDTO);
   }
 }
