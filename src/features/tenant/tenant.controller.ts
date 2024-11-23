@@ -53,8 +53,8 @@ export class TenantController {
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
   create(@Body() data: any): Promise<TenantDTO> {
-    const tenantDTO = getDTO(TenantCreateDTO, data);
-    return this.tenantService.create(tenantDTO);
+    const result = getDTO(TenantCreateDTO, data);
+    return this.tenantService.create(result);
   }
 
   @Patch(':_id')
@@ -77,8 +77,8 @@ export class TenantController {
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
   update(@Param('_id') _id: string, @Body() data: any): Promise<TenantDTO> {
-    const tenantDTO = getDTO(TenantUpdateDTO, data);
-    return this.tenantService.update(_id, tenantDTO);
+    const result = getDTO(TenantUpdateDTO, data);
+    return this.tenantService.update(_id, result);
   }
 
   @Get('/')

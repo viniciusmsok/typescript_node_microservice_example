@@ -18,9 +18,8 @@ export function toDTO<T>(
 
   if (validate) {
     const errors = validateSync(Object(dtoInstance));
-
     if (errors.length > 0) {
-      throw new BadRequestException(errors.join(' | '));
+      throw new BadRequestException(errors[0].constraints?.customValidation);
     }
   }
 

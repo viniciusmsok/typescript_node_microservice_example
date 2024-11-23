@@ -1,4 +1,6 @@
-import { Expose } from 'class-transformer';
+import { ValidateNested } from 'class-validator';
+import { Type, Expose } from 'class-transformer';
+
 import { ApiProperty } from '@nestjs/swagger';
 
 import { TenantSettingsCreateDTO } from '../tenant-settings';
@@ -23,6 +25,8 @@ export class TenantCreateDTO {
   status: TenantStatus;
 
   @Expose()
+  @ValidateNested()
+  @Type(() => TenantSettingsCreateDTO)
   @ApiProperty({
     description: 'Tenant configuration settings',
     type: TenantSettingsCreateDTO,

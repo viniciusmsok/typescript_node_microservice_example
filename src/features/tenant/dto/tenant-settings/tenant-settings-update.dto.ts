@@ -1,9 +1,12 @@
 import { Expose } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+
 import { ModuleStatus } from '../../enums';
+import { IsEnum } from '../../../../core';
 
 export class TenantSettingsUpdateDTO {
   @Expose()
+  @IsEnum(ModuleStatus)
   @ApiPropertyOptional({
     description: 'Accounting module status',
     example: ModuleStatus.ACTIVE,
@@ -12,6 +15,7 @@ export class TenantSettingsUpdateDTO {
   accountingModuleStatus?: ModuleStatus;
 
   @Expose()
+  @IsEnum(ModuleStatus)
   @ApiPropertyOptional({
     description: 'Financial module status',
     example: ModuleStatus.ACTIVE,
@@ -20,6 +24,7 @@ export class TenantSettingsUpdateDTO {
   financialModuleStatus?: ModuleStatus;
 
   @Expose()
+  @IsEnum(ModuleStatus)
   @ApiPropertyOptional({
     description: 'Incoming module status',
     example: ModuleStatus.ACTIVE,
@@ -28,6 +33,7 @@ export class TenantSettingsUpdateDTO {
   incomingModuleStatus?: ModuleStatus;
 
   @Expose()
+  @IsEnum(ModuleStatus)
   @ApiPropertyOptional({
     description: 'Purchasing module status',
     example: ModuleStatus.ACTIVE,
@@ -36,6 +42,7 @@ export class TenantSettingsUpdateDTO {
   purchasingModuleStatus?: ModuleStatus;
 
   @Expose()
+  @IsEnum(ModuleStatus)
   @ApiPropertyOptional({
     description: 'Sales module status',
     example: ModuleStatus.ACTIVE,
@@ -44,6 +51,7 @@ export class TenantSettingsUpdateDTO {
   salesModuleStatus?: ModuleStatus;
 
   @Expose()
+  @IsEnum(ModuleStatus)
   @ApiPropertyOptional({
     description: 'Stock module status',
     example: ModuleStatus.ACTIVE,
@@ -52,6 +60,7 @@ export class TenantSettingsUpdateDTO {
   stockModuleStatus?: ModuleStatus;
 
   @Expose()
+  @IsEnum(ModuleStatus)
   @ApiPropertyOptional({
     description: 'Tax module status',
     example: ModuleStatus.ACTIVE,
