@@ -1,11 +1,12 @@
 import { Response } from 'express';
 
 import {
+  ApiBody,
+  ApiParam,
   ApiQuery,
   ApiResponse,
   ApiOperation,
-  ApiDefaultResponse,
-  ApiBody
+  ApiDefaultResponse
 } from '@nestjs/swagger';
 
 import {
@@ -13,7 +14,9 @@ import {
   Res,
   Post,
   Body,
+  Patch,
   Query,
+  Param,
   HttpCode,
   Controller,
   HttpStatus,
@@ -21,10 +24,16 @@ import {
 } from '@nestjs/common';
 
 import { TenantService } from './tenant.service';
-import { TenantDTO, TenantFindParametersDTO } from './dto';
 
 import { getDTO } from '../../core';
 import { TenantStatus } from './enums';
+
+import {
+  TenantDTO,
+  TenantCreateDTO,
+  TenantUpdateDTO,
+  TenantFindParametersDTO
+} from './dto';
 
 @Controller('tenants')
 export class TenantController {
@@ -33,20 +42,43 @@ export class TenantController {
   @Post('/')
   @ApiOperation({ summary: 'Create new' })
   @HttpCode(HttpStatus.CREATED)
+  @ApiBody({
+    type: TenantCreateDTO,
+    description: 'New tenant attributes'
+  })
   @ApiDefaultResponse({
     description: 'OK',
-    type: TenantDTO,
-    isArray: true
-  })
-  @ApiBody({
-    type: TenantDTO,
-    description: 'New Tenant attributes'
+    type: TenantDTO
   })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
-  create(@Body() tenant: any): Promise<TenantDTO> {
-    const tenantDTO = getDTO(TenantDTO, tenant);
+  create(@Body() data: any): Promise<TenantDTO> {
+    const tenantDTO = getDTO(TenantCreateDTO, data);
     return this.tenantService.create(tenantDTO);
+  }
+
+  @Patch(':_id')
+  @ApiOperation({ summary: 'Update' })
+  @HttpCode(HttpStatus.OK)
+  @ApiParam({
+    name: '_id',
+    description: 'Tenant UUID',
+    type: String,
+    example: '673e4bfc8cd77979a0f102d6'
+  })
+  @ApiBody({
+    type: TenantUpdateDTO,
+    description: 'Update tenant attributes'
+  })
+  @ApiDefaultResponse({
+    description: 'OK',
+    type: TenantDTO
+  })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+  update(@Param('_id') _id: string, @Body() data: any): Promise<TenantDTO> {
+    const tenantDTO = getDTO(TenantUpdateDTO, data);
+    return this.tenantService.update(_id, tenantDTO);
   }
 
   @Get('/')
@@ -81,14 +113,8 @@ export class TenantController {
   @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'No Content' })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
-  async find(
-    @Res() res: Response,
-    @Query() queryParams: any
-  ): Promise<Response> {
-    const tenantFindParametersDTO = getDTO(
-      TenantFindParametersDTO,
-      queryParams
-    );
+  async find(@Res() res: Response, @Query() data: any): Promise<Response> {
+    const tenantFindParametersDTO = getDTO(TenantFindParametersDTO, data);
 
     const { _id, partialName, status } = tenantFindParametersDTO;
     if (!_id && !partialName && !status) {

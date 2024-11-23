@@ -1,8 +1,9 @@
 import { Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { TenantStatus } from '../enums';
-import { TenantSettingsDTO } from './tenant-settings.dto';
+import { TenantSettingsDTO } from '../tenant-settings';
+
+import { TenantStatus } from '../../enums';
 
 export class TenantDTO {
   @Expose()

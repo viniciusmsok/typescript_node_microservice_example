@@ -1,3 +1,2 @@
-export * from './tenant-find-parameters.dto';
-export * from './tenant-settings.dto';
-export * from './tenant.dto';
+export * from './tenant';
+export * from './tenant-settings';
