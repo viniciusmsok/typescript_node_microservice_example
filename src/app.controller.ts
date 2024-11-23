@@ -11,6 +11,7 @@ import {
 
 import {
   ApiResponse,
+  ApiOperation,
   ApiDefaultResponse,
   ApiExcludeEndpoint
 } from '@nestjs/swagger';
@@ -40,6 +41,12 @@ export class AppController {
     );
   }
 
+  @Get('/health')
+  @HttpCode(200)
+  @ApiOperation({
+    summary: 'Application health check',
+    tags: ['Health']
+  })
   @ApiDefaultResponse({
     description: 'OK',
     type: HealthCheckDTO,
@@ -48,8 +55,6 @@ export class AppController {
   @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'No Content' })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
-  @Get('/health')
-  @HttpCode(200)
   async healthCheck(): Promise<HealthCheckDTO> {
     return this.service.getHealth();
   }

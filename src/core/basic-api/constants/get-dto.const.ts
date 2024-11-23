@@ -5,7 +5,8 @@ import { BadRequestException } from '@nestjs/common';
 
 export function getDTO<T>(dtoClass: new () => T, dtoData: Partial<T>): T {
   const dtoInstance = plainToInstance(dtoClass, dtoData, {
-    enableImplicitConversion: true
+    enableImplicitConversion: true,
+    excludeExtraneousValues: true
   });
 
   const errors = validateSync(Object(dtoInstance));

@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { TenantSettings } from './tenant-settings.schema';
 
-@Schema()
+@Schema({ timestamps: true })
 export class Tenant extends Document {
   @Prop({ required: true, unique: true })
   name: string;

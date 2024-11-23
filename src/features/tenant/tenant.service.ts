@@ -5,16 +5,21 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Tenant } from './schemas';
 import { TenantDTO, TenantFindParametersDTO } from './dto';
 
+import { toDTO } from '../../core';
+
 @Injectable()
 export class TenantService {
   constructor(@InjectModel(Tenant.name) private tenantModel: Model<Tenant>) {}
 
-  async create(createTenantDto: TenantDTO): Promise<Tenant> {
-    const newTenant = new this.tenantModel(createTenantDto);
-    return newTenant.save();
+  async create(createTenantDTO: TenantDTO): Promise<TenantDTO> {
+    const newTenant = new this.tenantModel(createTenantDTO);
+    const result = await newTenant.save();
+    return toDTO(TenantDTO, result);
   }
 
-  async find(queryParams: TenantFindParametersDTO): Promise<Tenant[]> {
+  async find(
+    queryParams: TenantFindParametersDTO
+  ): Promise<TenantDTO[] | undefined> {
     const params: any = {};
 
     if (queryParams._id) {
@@ -29,6 +34,13 @@ export class TenantService {
       params.name = { $regex: `^${queryParams.partialName}`, $options: 'i' };
     }
 
-    return this.tenantModel.find(params).exec();
+    const result = await this.tenantModel.find(params).exec();
+    if (!result?.length) {
+      return undefined;
+    }
+
+    const data = result.map((el) => toDTO(TenantDTO, el));
+
+    return data;
   }
 }
